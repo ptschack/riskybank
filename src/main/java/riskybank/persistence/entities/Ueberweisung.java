@@ -18,7 +18,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +48,6 @@ public class Ueberweisung implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "DATUM")
-//	@Type(type="java.sql.Date")
 	public Date getDatum() {
 		return datum;
 	}

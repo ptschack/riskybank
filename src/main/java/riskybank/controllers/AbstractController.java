@@ -9,11 +9,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import riskybank.persistence.entities.User;
 import riskybank.persistence.repositories.UserRepository;
+import riskybank.sessionbeans.Historie;
 
 public abstract class AbstractController {
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	protected Historie historie;
 
 	protected User currentUser() {
 		return Optional.ofNullable(SecurityContextHolder.getContext()) //

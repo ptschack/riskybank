@@ -9,8 +9,10 @@
 	<h1>Willkommen bei RiskyBank!</h1>
 	<p th:text="'Angemeldet als ' + ${name}" />
 	<br />
-	<a href="/historie">Aktionshistorie</a>
-	<br />
+	<h2>Aktionshistorie der aktuellen Session:</h2>
+	<th:block th:each="aktion : ${aktionen}">
+		<p th:text="${aktion}"></p>
+	</th:block>
 	<a href="/login?logout">Logout</a>
 	<br />
 </body>

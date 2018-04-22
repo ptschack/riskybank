@@ -8,13 +8,13 @@
 <body>
 	<h1>Willkommen bei RiskyBank!</h1>
 	<p th:text="'Angemeldet als Administrator ' + ${name}" />
-		<form action="findUser" method="GET">
+	<form action="findUser" method="GET">
 		<label>Username</label><input name="username" type="text" />
 		<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
 		<input type="submit" value="Senden" />
 	</form>
-	
-		<a href="/findUser">Benutzer finden</a>
+	<br />
+	<a href="/historie">Aktionshistorie</a>
 	<br />
 	<a href="/login?logout">Logout</a>
 	<br />

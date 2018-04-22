@@ -28,6 +28,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import riskybank.services.IpBlockService;
 import riskybank.services.UserService;
@@ -35,9 +37,9 @@ import riskybank.services.UserService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
+public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
+
+	private static final Logger LOG = LoggerFactory.getLogger(RiskyBankConfig.class);
 
 	/** akzeptierte Session-Tracking Mechanismen */
 	public static final Set<SessionTrackingMode> VALID_TRACKING_MODES = Collections.unmodifiableSet(Stream.of( //
@@ -49,6 +51,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private IpBlockService ipBlocker;
+
+	@Bean
+	public WebMvcConfigurer addViewControllers() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addViewControllers(ViewControllerRegistry registry) {
+				registry.addRedirectViewController("/", "/welcome");
+			}
+		};
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

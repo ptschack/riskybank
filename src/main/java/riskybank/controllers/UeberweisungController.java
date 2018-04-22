@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import riskybank.persistence.entities.Ueberweisung;
 import riskybank.services.UeberweisungService;
+import riskybank.sessionbeans.Historie;
 
 @Controller
 public class UeberweisungController extends AbstractController {
@@ -26,6 +27,7 @@ public class UeberweisungController extends AbstractController {
 	@RequestMapping(value = "/ueberweisung")
 	@PreAuthorize("hasRole('ROLE_UEBERWEISUNG_TAETIGEN')")
 	public String ueberweisung(Model model) {
+		historie.addAktion("Ueberweisungs-Seite aufgerufen");
 		model.addAttribute("konten", currentUser().getKonten());
 		return "ueberweisung";
 	}
@@ -34,6 +36,7 @@ public class UeberweisungController extends AbstractController {
 	@PreAuthorize("hasRole('ROLE_UEBERWEISUNG_TAETIGEN')")
 	public String doUeberweisung(@RequestParam("quellkonto") Long quellkonto, @RequestParam("iban") String iban,
 			@RequestParam("betrag") final Double betrag, @RequestParam("betrag") String text, Model model, HttpSession session) {
+		historie.addAktion("Versuch, Ueberweisung durchzufuehren");
 		try {
 			Ueberweisung ueberweisung = ueberweisungService.ueberweisen(currentUser(), quellkonto,
 					betrag, iban, text);
@@ -48,6 +51,7 @@ public class UeberweisungController extends AbstractController {
 	@RequestMapping(value = "/ueberweisungenAnzeigen")
 	@PreAuthorize("hasRole('ROLE_UEBERWEISUNGEN_ANZEIGEN')")
 	public String ueberweisungenAnzeigen(Model model) {
+		historie.addAktion("Ueberweisungen anzeigen");
 		model.addAttribute("ueberweisungen", ueberweisungService.ermittleUeberweisungenFuerKunden(currentUser()));
 		return "umsaetze";
 	}
