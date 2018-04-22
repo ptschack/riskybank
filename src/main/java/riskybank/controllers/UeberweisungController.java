@@ -2,6 +2,8 @@ package riskybank.controllers;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import riskybank.services.UeberweisungService;
 
 @Controller
 public class UeberweisungController extends AbstractController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(UeberweisungController.class);
 
 	@Autowired
 	private UeberweisungService ueberweisungService;

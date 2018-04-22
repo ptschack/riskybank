@@ -9,6 +9,8 @@ import java.util.stream.Stream;
 import javax.servlet.ServletContext;
 import javax.servlet.SessionTrackingMode;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.ApplicationListener;
@@ -34,7 +36,10 @@ import riskybank.services.UserService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(WebSecurityConfig.class);
 
+	/** akzeptierte Session-Tracking Mechanismen */
 	public static final Set<SessionTrackingMode> VALID_TRACKING_MODES = Collections.unmodifiableSet(Stream.of( //
 			SessionTrackingMode.COOKIE //
 	).collect(Collectors.toSet()));
@@ -105,7 +110,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public ApplicationListener<AuthenticationSuccessEvent> successListener() {
 		return (AuthenticationSuccessEvent event) -> {
 			String details = readDetails(event);
-			System.out.println("Login erfolgreich von " + details);
+			LOG.debug("Login erfolgreich von " + details);
 			ipBlocker.loginErfolgreich(details);
 		};
 	}
@@ -117,7 +122,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public ApplicationListener<AuthenticationFailureBadCredentialsEvent> failureListener() {
 		return (AuthenticationFailureBadCredentialsEvent event) -> {
 			String details = readDetails(event);
-			System.out.println("Login fehlgeschlagen von " + details);
+			LOG.debug("Login fehlgeschlagen von " + details);
 			ipBlocker.loginNichtErfolgreich(details);
 		};
 	}

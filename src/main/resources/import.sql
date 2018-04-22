@@ -89,7 +89,7 @@ CREATE TABLE role_privilege(
 
 INSERT INTO role_privilege (roleid, privilegeid) VALUES
 	(
-		(SELECT r.id FROM role r WHERE r.name='SERVICE'),
+		(SELECT r.id FROM role r WHERE r.name='ADMIN'),
 		(SELECT p.id FROM privilege p WHERE p.name='ROLE_BENUTZER_AUFLISTEN')
 	),
 		(
@@ -155,14 +155,14 @@ INSERT INTO ueberweisung (quellkonto, zielIban, betrag, datum, text) VALUES
 		(SELECT k.id FROM konto k WHERE k.name='Girokonto' AND k.userid=(SELECT u.id FROM user u WHERE u.username='hhansen')),
 		'DE27100777770209299700',
 		23.5,
-		to_date('yyyymmdd', '20150101'),
+		PARSEDATETIME('20150101', 'yyyymmdd'),
 		'Hallo Heidi, alles Gute zum Geburtstag!'
 	),
 	(
 		(SELECT k.id FROM konto k WHERE k.name='Girokonto' AND k.userid=(SELECT u.id FROM user u WHERE u.username='ppetersen')),
 		'DE11520513735120710131',
 		6.66,
-		to_date('yyyymmdd', '20171224'),
+		PARSEDATETIME('20171224', 'yyyymmdd'),
 		'Frohes Fest!'
 	)
 ;

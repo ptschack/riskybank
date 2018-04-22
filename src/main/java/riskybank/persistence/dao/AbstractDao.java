@@ -5,11 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 public abstract class AbstractDao {
+
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

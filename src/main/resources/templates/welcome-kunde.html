@@ -7,8 +7,16 @@
 </head>
 <body>
 	<h1>Willkommen bei RiskyBank!</h1>
-	<p th:text="'Angemeldet als ' + ${name}" />
+	<p th:text="'Angemeldet als Kunde ' + ${name}" />
+	<a href="/ueberweisung">&Uuml;berweisung aufgeben</a>
 	<br />
+	<a href="/ueberweisungenAnzeigen">&Uuml;berweisungen anzeigen</a>
+	<br />
+	<h2>Ihre Konten</h2>
+	<th:block th:each="konto : ${konten}">
+		<p th:text="${konto.name}"></p>
+		<p th:text="${konto.saldo}"></p>
+	</th:block>
 	<a href="/login?logout">Logout</a>
 	<br />
 </body>

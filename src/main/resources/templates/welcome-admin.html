@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>RiskyBank Startseite</title>
+</head>
+<body>
+	<h1>Willkommen bei RiskyBank!</h1>
+	<p th:text="'Angemeldet als Administrator ' + ${name}" />
+		<form action="findUser" method="GET">
+		<label>Username</label><input name="username" type="text" />
+		<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+		<input type="submit" value="Senden" />
+	</form>
+	
+		<a href="/findUser">Benutzer finden</a>
+	<br />
+	<a href="/login?logout">Logout</a>
+	<br />
+</body>
+</html>

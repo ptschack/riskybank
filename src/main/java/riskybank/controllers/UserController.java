@@ -1,5 +1,7 @@
 package riskybank.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import riskybank.persistence.repositories.KontoRepository;
 @Controller
 public class UserController extends AbstractController {
 
+	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+
 	@Autowired
 	private KontoRepository kontoRepo;
 
@@ -23,18 +27,28 @@ public class UserController extends AbstractController {
 	private UserDao userDao;
 
 	@RequestMapping(value = "/welcome")
+	@PreAuthorize("isAuthenticated()")
 	public String welcome(Model model) {
 		User currentUser = currentUser();
 		model.addAttribute("name", currentUser.getVorname() + " " + currentUser.getNachname());
-		model.addAttribute("konten", kontoRepo.findByOwner(currentUser));
+		if (currentUser.getRoles().stream().filter(r -> "ADMIN".equals(r.getName())).findAny().isPresent()) {
+			return "welcome-admin";
+		}
+		if (currentUser.getRoles().stream().filter(r -> "KUNDE".equals(r.getName())).findAny().isPresent()) {
+			model.addAttribute("konten", kontoRepo.findByOwner(currentUser));
+			return "welcome-kunde";
+		}
+		if (currentUser.getRoles().stream().filter(r -> "SERVICE".equals(r.getName())).findAny().isPresent()) {
+			return "welcome-service";
+		}
 		return "welcome";
 	}
 
-	@RequestMapping(value = "/listAll", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/findUser", method = { RequestMethod.GET, RequestMethod.POST })
 	@PreAuthorize("hasRole('ROLE_BENUTZER_AUFLISTEN')")
 	@ResponseBody
-	public String listAll(@RequestParam("query") String query) {
-		return userDao.listAll(query);
+	public String listAll(@RequestParam("username") String username) {
+		return userDao.listAll(username);
 	}
 
 }

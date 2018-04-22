@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,6 +23,8 @@ import riskybank.persistence.repositories.UserRepository;
 
 @Service("riskybank.services.authenticationService")
 public class AuthenticationService implements AuthenticationProvider {
+
+	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationService.class);
 
 	@Autowired
 	private UserRepository userRepository;

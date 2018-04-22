@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,8 @@ import riskybank.persistence.repositories.UserRepository;
 
 @Service("riskybank.services.userService")
 public class UserService implements UserDetailsService {
+
+	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
 	private UserRepository userRepo;
@@ -53,7 +57,7 @@ public class UserService implements UserDetailsService {
 		return Optional.ofNullable(request.getHeader("X-Forwarded-For")) // wenn der Client Proxies benutzt ...
 				.map(s -> s.split(",")) // ... IPs auslesen ...
 				.map(array -> array.length > 0 ? array[0] : null) // ... und ursprüngliche IP nehmen
-				.orElse(request.getRemoteAddr()); // ansonsten normal die remote-Adresse verwenden 
+				.orElse(request.getRemoteAddr()); // ansonsten normal die remote-Adresse verwenden
 	}
 
 }

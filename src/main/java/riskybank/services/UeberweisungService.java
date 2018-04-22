@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import riskybank.persistence.repositories.UeberweisungRepository;
 
 @Service("riskybank.services.ueberweisungService")
 public class UeberweisungService {
+
+	private static final Logger LOG = LoggerFactory.getLogger(UeberweisungService.class);
 
 	@Autowired
 	private UeberweisungRepository ueberweisungRepo;
@@ -32,7 +36,8 @@ public class UeberweisungService {
 	}
 
 	private Ueberweisung ueberweisungErstellen(Long quellkontoId, Double betrag, String zielIban, String text) {
-		Konto quellkonto = kontoRepo.findById(quellkontoId).orElseThrow(() -> new RuntimeException("Konto mit ID " + quellkontoId + "nicht gefunden"));
+		Konto quellkonto = kontoRepo.findById(quellkontoId)
+				.orElseThrow(() -> new RuntimeException("Konto mit ID " + quellkontoId + "nicht gefunden"));
 		Ueberweisung u = new Ueberweisung();
 		u.setQuellkonto(quellkonto);
 		u.setDatum(new Date());
@@ -74,9 +79,10 @@ public class UeberweisungService {
 		quellkonto.setSaldo(neuerSaldo);
 		kontoRepo.save(quellkonto);
 	}
-	
-	public List<Ueberweisung> ermittleUeberweisungenFuerKunden(User u){
-		return kontoRepo.findByOwner(u).stream().flatMap(k -> ueberweisungRepo.findByQuellkonto(k).stream()).collect(Collectors.toList());
+
+	public List<Ueberweisung> ermittleUeberweisungenFuerKunden(User u) {
+		return kontoRepo.findByOwner(u).stream().flatMap(k -> ueberweisungRepo.findByQuellkonto(k).stream())
+				.collect(Collectors.toList());
 	}
 
 }

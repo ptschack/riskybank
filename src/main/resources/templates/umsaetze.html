@@ -9,6 +9,7 @@
 	<h1>Ums&auml;tze</h1>
 	<th:block th:each="ueberweisung : ${ueberweisungen}">
 		<p th:text="'Quellkonto: '+${ueberweisung.quellkonto.name}"></p>
+		<p th:text="'Datum: '+${ueberweisung.formatiertesDatum}"></p>
 		<p th:text="'ZielIban: '+${ueberweisung.zielIban}"></p>
 		<p th:text="'Betrag: '+${ueberweisung.betrag}"></p>
 		<p th:text="'Text: '+${ueberweisung.text}"></p>

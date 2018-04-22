@@ -2,6 +2,7 @@ package riskybank.persistence.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,7 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +47,9 @@ public class Ueberweisung implements Serializable {
 		this.id = id;
 	}
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "DATUM")
+//	@Type(type="java.sql.Date")
 	public Date getDatum() {
 		return datum;
 	}
@@ -87,6 +94,11 @@ public class Ueberweisung implements Serializable {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+	
+	@Transient
+	public String getFormatiertesDatum(){
+		return new SimpleDateFormat("yyyy-MM-dd").format(getDatum());
 	}
 
 }
