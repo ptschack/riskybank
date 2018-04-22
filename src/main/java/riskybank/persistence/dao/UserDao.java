@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component("riskybank.persistence.userDao")
 public class UserDao extends AbstractDao {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(UserDao.class);
 
 	public String listAll(String username) {

@@ -20,6 +20,7 @@ import riskybank.persistence.repositories.UserRepository;
 @Service("riskybank.services.userService")
 public class UserService implements UserDetailsService {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired

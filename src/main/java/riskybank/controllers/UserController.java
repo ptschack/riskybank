@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import riskybank.persistence.dao.UserDao;
 import riskybank.persistence.entities.User;
 import riskybank.persistence.repositories.KontoRepository;
-import riskybank.sessionbeans.Historie;
 
 @Controller
 public class UserController extends AbstractController {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired

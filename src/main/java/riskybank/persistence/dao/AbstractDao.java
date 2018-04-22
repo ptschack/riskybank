@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 public abstract class AbstractDao {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
 
 	@Autowired

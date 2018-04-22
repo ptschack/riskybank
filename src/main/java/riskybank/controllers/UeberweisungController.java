@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import riskybank.persistence.entities.Ueberweisung;
 import riskybank.services.UeberweisungService;
-import riskybank.sessionbeans.Historie;
 
 @Controller
 public class UeberweisungController extends AbstractController {
-	
+
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(UeberweisungController.class);
 
 	@Autowired
@@ -35,11 +35,11 @@ public class UeberweisungController extends AbstractController {
 	@RequestMapping(value = "/doUeberweisung", method = { RequestMethod.GET, RequestMethod.POST })
 	@PreAuthorize("hasRole('ROLE_UEBERWEISUNG_TAETIGEN')")
 	public String doUeberweisung(@RequestParam("quellkonto") Long quellkonto, @RequestParam("iban") String iban,
-			@RequestParam("betrag") final Double betrag, @RequestParam("betrag") String text, Model model, HttpSession session) {
+			@RequestParam("betrag") final Double betrag, @RequestParam("betrag") String text, Model model,
+			HttpSession session) {
 		historie.addAktion("Versuch, Ueberweisung durchzufuehren");
 		try {
-			Ueberweisung ueberweisung = ueberweisungService.ueberweisen(currentUser(), quellkonto,
-					betrag, iban, text);
+			Ueberweisung ueberweisung = ueberweisungService.ueberweisen(currentUser(), quellkonto, betrag, iban, text);
 			model.addAttribute("ueberweisung", ueberweisung);
 		} catch (Exception e) {
 			model.addAttribute("error", e.getMessage());
@@ -47,7 +47,7 @@ public class UeberweisungController extends AbstractController {
 		}
 		return "bestaetigung";
 	}
-	
+
 	@RequestMapping(value = "/ueberweisungenAnzeigen")
 	@PreAuthorize("hasRole('ROLE_UEBERWEISUNGEN_ANZEIGEN')")
 	public String ueberweisungenAnzeigen(Model model) {

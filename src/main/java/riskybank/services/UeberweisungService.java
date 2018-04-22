@@ -20,6 +20,7 @@ import riskybank.persistence.repositories.UeberweisungRepository;
 @Service("riskybank.services.ueberweisungService")
 public class UeberweisungService {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(UeberweisungService.class);
 
 	@Autowired

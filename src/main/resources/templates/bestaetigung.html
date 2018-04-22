@@ -7,14 +7,13 @@
 </head>
 <body>
 	<h1>Auftragsbest&auml;tigung</h1>
-	<p
-		th:text="'Hiermit best&auml;tigen wir Ihnen folgende &Uuml;berweisung'" />
+	<p th:text="'Hiermit best&auml;tigen wir Ihnen folgende &Uuml;berweisung'" />
 	<p th:text="'Quellkonto: ' + ${ueberweisung.quellkonto.name}" />
 	<p th:text="'Ziel-IBAN: ' + ${ueberweisung.zielIban}" />
 	<p th:text="'Betrag : ' + ${ueberweisung.betrag}" />
 	<p th:text="'Datum : ' + ${ueberweisung.datum}" />
 	<p th:text="'Text : ' + ${ueberweisung.text}" />
 	<br />
-	<a href="/welcome">Zur&uuml;ck zur &Uuml;bersicht</a>
+	<a href="/">Zur&uuml;ck zur &Uuml;bersicht</a>
 </body>
 </html>

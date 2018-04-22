@@ -24,6 +24,7 @@ import riskybank.persistence.repositories.UserRepository;
 @Service("riskybank.services.authenticationService")
 public class AuthenticationService implements AuthenticationProvider {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationService.class);
 
 	@Autowired

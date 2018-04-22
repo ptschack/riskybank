@@ -1,4 +1,4 @@
-package riskybank.config;
+package riskybank;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -34,6 +34,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import riskybank.services.IpBlockService;
 import riskybank.services.UserService;
 
+/**
+ * Konfigurationsklasse für RiskyBank-Anwendung
+ * 
+ * <br />
+ * Anmerkung: einige der mit {@link Bean} annotierten Methoden liefern per
+ * Lambda generierte anonyme Klassen zurück, z.B. {@link #failureListener()}
+ * 
+ * @author Patrick Tschackert / Acando GmbH
+ * 
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -53,7 +63,7 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	private IpBlockService ipBlocker;
 
 	@Bean
-	public WebMvcConfigurer addViewControllers() {
+	public WebMvcConfigurer webMvcConfigurerGenerieren() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addViewControllers(ViewControllerRegistry registry) {
