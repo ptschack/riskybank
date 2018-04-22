@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>RiskyBank Startseite</title>
+</head>
+<body>
+	<h1>Willkommen bei RiskyBank!</h1>
+	<p th:text="'Angemeldet als ' + ${name}" />
+	<a href="/ueberweisung">&Uuml;berweisung aufgeben</a><br />
+	<a href="/login?logout">Logout</a><br />
+	<h2>Ihre Konten</h2>
+	<th:block th:each="konto : ${konten}">
+		<p th:text="${konto.name}"></p>
+		<p th:text="${konto.saldo}"></p>
+	</th:block>
+</body>
+</html>

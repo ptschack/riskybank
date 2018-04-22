@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Fehler bei &Uuml;berweisung</title>
+</head>
+<body>
+	<h1>Das tut uns leid :(</h1>
+	<p th:text="'Es gab einen Fehler bei Ihrer &Uuml;berweisung:'" />
+	<p th:text="${error}" />
+	<br />
+	<a href="/ueberweisung">Nochmal versuchen</a>
+	<br />
+	<a href="/welcome">Zur&uuml;ck zur &Uuml;bersicht</a>
+</body>
+</html>

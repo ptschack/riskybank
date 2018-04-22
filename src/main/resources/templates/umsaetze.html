@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Ums&auml;tze</title>
+</head>
+<body>
+	<h1>Ums&auml;tze</h1>
+	<th:block th:each="ueberweisung : ${ueberweisungen}">
+		<p th:text="'Quellkonto: '+${ueberweisung.quellkonto.name}"></p>
+		<p th:text="'ZielIban: '+${ueberweisung.zielIban}"></p>
+		<p th:text="'Betrag: '+${ueberweisung.betrag}"></p>
+		<p th:text="'Text: '+${ueberweisung.text}"></p>
+	</th:block>
+	<a href="/">Startseite</a><br />
+	<a href="/login?logout">Logout</a><br />
+</body>
+</html>
