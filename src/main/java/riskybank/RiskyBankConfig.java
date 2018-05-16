@@ -63,7 +63,7 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	private IpBlockService ipBlocker;
 
 	@Bean
-	public WebMvcConfigurer webMvcConfigurerGenerieren() {
+	public WebMvcConfigurer webMvcKonfigurieren() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addViewControllers(ViewControllerRegistry registry) {

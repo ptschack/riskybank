@@ -1,7 +1,6 @@
 package riskybank.persistence.entities;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,8 +38,7 @@ public class User implements UserDetails {
 	private Long treuepunkte;
 	private Boolean aktiv;
 	private Boolean gesperrt;
-	private List<Role> roles;
-	private List<Konto> konten;
+	private Collection<Role> roles;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -130,23 +128,13 @@ public class User implements UserDetails {
 			joinColumns = { @JoinColumn(name = "USERID", referencedColumnName = "ID") }, //
 			inverseJoinColumns = { @JoinColumn(name = "ROLEID", referencedColumnName = "ID", unique = true) } //
 	)
-	public List<Role> getRoles() {
+	public Collection<Role> getRoles() {
 		LOG.debug("getRoles: " + roles.toString());
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
-	}
-
-	@OneToMany(mappedBy = "owner") // , fetch = FetchType.EAGER)
-	public List<Konto> getKonten() {
-		LOG.debug("getKonten: " + konten.toString());
-		return konten;
-	}
-
-	public void setKonten(List<Konto> konten) {
-		this.konten = konten;
 	}
 
 	@Override

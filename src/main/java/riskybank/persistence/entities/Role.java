@@ -26,7 +26,6 @@ public class Role implements Serializable {
 
 	private Long id;
 	private String name;
-	private Collection<User> users;
 	private Collection<Privilege> privileges;
 
 	public Role() {
@@ -55,16 +54,6 @@ public class Role implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@ManyToMany(mappedBy = "roles") // , fetch = FetchType.EAGER)
-	public Collection<User> getUsers() {
-		LOG.debug("getUsers: " + users.toString());
-		return users;
-	}
-
-	public void setUsers(Collection<User> users) {
-		this.users = users;
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER)

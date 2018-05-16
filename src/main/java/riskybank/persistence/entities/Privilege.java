@@ -1,15 +1,12 @@
 package riskybank.persistence.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -26,7 +23,6 @@ public class Privilege implements GrantedAuthority, Serializable {
 
 	private Long id;
 	private String name;
-	private Collection<Role> roles;
 
 	public Privilege() {
 
@@ -54,16 +50,6 @@ public class Privilege implements GrantedAuthority, Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@ManyToMany(mappedBy = "privileges", fetch = FetchType.EAGER)
-	public Collection<Role> getRoles() {
-		LOG.debug("getRoles: " + roles.toString());
-		return roles;
-	}
-
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
 	}
 
 	@Override

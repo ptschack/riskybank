@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import riskybank.persistence.entities.Ueberweisung;
+import riskybank.persistence.repositories.KontoRepository;
 import riskybank.services.UeberweisungService;
 
 @Controller
@@ -23,12 +24,15 @@ public class UeberweisungController extends AbstractController {
 
 	@Autowired
 	private UeberweisungService ueberweisungService;
+	
+	@Autowired
+	private KontoRepository kontoRepo;
 
 	@RequestMapping(value = "/ueberweisung")
 	@PreAuthorize("hasRole('ROLE_UEBERWEISUNG_TAETIGEN')")
 	public String ueberweisung(Model model) {
 		historie.addAktion("Ueberweisungs-Seite aufgerufen");
-		model.addAttribute("konten", currentUser().getKonten());
+		model.addAttribute("konten", kontoRepo.findByOwner(currentUser()));
 		return "ueberweisung";
 	}
 
