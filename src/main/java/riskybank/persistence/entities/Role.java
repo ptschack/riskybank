@@ -1,7 +1,7 @@
 package riskybank.persistence.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ public class Role implements Serializable {
 
 	private Long id;
 	private String name;
-	private Collection<Privilege> privileges;
+	private Set<Privilege> privileges;
 
 	public Role() {
 
@@ -62,12 +62,12 @@ public class Role implements Serializable {
 			joinColumns = @JoinColumn(name = "roleid", referencedColumnName = "id"), //
 			inverseJoinColumns = @JoinColumn(name = "privilegeid", referencedColumnName = "id") //
 	)
-	public Collection<Privilege> getPrivileges() {
+	public Set<Privilege> getPrivileges() {
 		LOG.debug("getPrivileges: " + privileges.toString());
 		return privileges;
 	}
 
-	public void setPrivileges(Collection<Privilege> privileges) {
+	public void setPrivileges(Set<Privilege> privileges) {
 		this.privileges = privileges;
 	}
 

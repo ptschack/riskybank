@@ -1,6 +1,5 @@
 package riskybank.persistence.entities;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -38,7 +37,8 @@ public class User implements UserDetails {
 	private Long treuepunkte;
 	private Boolean aktiv;
 	private Boolean gesperrt;
-	private Collection<Role> roles;
+	private Set<Role> roles;
+	private Set<Host> erlaubteHosts;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -128,12 +128,12 @@ public class User implements UserDetails {
 			joinColumns = { @JoinColumn(name = "USERID", referencedColumnName = "ID") }, //
 			inverseJoinColumns = { @JoinColumn(name = "ROLEID", referencedColumnName = "ID", unique = true) } //
 	)
-	public Collection<Role> getRoles() {
+	public Set<Role> getRoles() {
 		LOG.debug("getRoles: " + roles.toString());
 		return roles;
 	}
 
-	public void setRoles(Collection<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 
@@ -142,7 +142,7 @@ public class User implements UserDetails {
 	public Set<Privilege> getAuthorities() {
 		return getRoles().stream() //
 				.map(Role::getPrivileges) //
-				.flatMap(Collection::stream) //
+				.flatMap(Set::stream) //
 				.filter(Objects::nonNull) //
 				.collect(Collectors.toSet());
 	}
@@ -163,6 +163,20 @@ public class User implements UserDetails {
 	@Transient
 	public boolean isCredentialsNonExpired() {
 		return true;
+	}
+
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinTable( //
+			name = "ERLAUBTE_HOSTS", //
+			joinColumns = { @JoinColumn(name = "USERID", referencedColumnName = "ID") }, //
+			inverseJoinColumns = { @JoinColumn(name = "HOSTID", referencedColumnName = "ID", unique = true) } //
+	)
+	public Set<Host> getErlaubteHosts() {
+		return erlaubteHosts;
+	}
+
+	public void setErlaubteHosts(Set<Host> erlaubteHosts) {
+		this.erlaubteHosts = erlaubteHosts;
 	}
 
 }

@@ -31,6 +31,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import riskybank.services.AuthenticationService;
 import riskybank.services.IpBlockService;
 import riskybank.services.UserService;
 
@@ -60,6 +61,9 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	private UserService userService;
 
 	@Autowired
+	private AuthenticationService authService;
+
+	@Autowired
 	private IpBlockService ipBlocker;
 
 	@Bean
@@ -79,6 +83,7 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 				// .csrf().ignoringAntMatchers("/h2_console/**")
 				// .authorizeRequests().antMatchers("/**").hasAnyAuthority("KUNDE", "SERVICE",
 				// "ADMIN").and() //
+				.anonymous().disable() //
 				.formLogin() // Login-Formular. Customizable mittels .loginPage(loginPage)
 				.and().logout() // Logout. Customizable durch .logoutUrl(logoutUrl)
 				.and().headers().frameOptions().sameOrigin() // Frames für H2 Console erlauben
@@ -98,8 +103,8 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userService);
-		// auth.authenticationProvider(authService); // Custom-Authentifizierung
+		// auth.userDetailsService(userService);
+		auth.authenticationProvider(authService); // Custom-Authentifizierung
 	}
 
 	/**
