@@ -26,6 +26,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.session.SessionDestroyedEvent;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -93,7 +94,7 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 		;
 		http //
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) //
-				.and().sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry) //
+				.and().sessionManagement().maximumSessions(2).sessionRegistry(sessionRegistry) //
 				.and().sessionFixation().migrateSession() //
 		;
 	}
@@ -142,6 +143,16 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 			String details = readRemoteAddressFromEvent(event);
 			LOG.debug("Login erfolgreich von " + details);
 			ipBlocker.loginErfolgreich(details);
+		};
+	}
+	
+	/**
+	 * @return einen Listener, der auf zerstörte Sessions reagiert
+	 */
+	@Bean
+	public ApplicationListener<SessionDestroyedEvent> sessionDestroyedListener() {
+		return (SessionDestroyedEvent event) -> {
+			LOG.debug("Session destroyed!");
 		};
 	}
 
