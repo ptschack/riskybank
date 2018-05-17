@@ -18,13 +18,14 @@ import riskybank.persistence.repositories.UeberweisungRepository;
 @RequestMapping("/api/ueberweisung")
 public class RestUeberweisungController {
 
-	private static final String UEBERWEISUNG_FILTERN_NACH_AUFTRAGGEBER = "filterObject.quellkonto.owner.username eq authentication.name OR hasRole('ROLE_UEBERWEISUNGEN_ANZEIGEN')";
+	private static final String UEBERWEISUNG_FILTERN_NACH_AUFTRAGGEBER = "filterObject.quellkonto.owner.username eq authentication.name";
+	private static final String ZUGRIFF_NUR_FUER_AUFTRAGGEBER = "returnObject.quellkonto.owner.username eq authentication.name";
 
 	@Autowired
 	private UeberweisungRepository ueberweisungRepo;
 
 	@RequestMapping("/{id}")
-	@PostAuthorize("returnObject.quellkonto.owner.username eq authentication.name")
+	@PostAuthorize(ZUGRIFF_NUR_FUER_AUFTRAGGEBER)
 	public Ueberweisung find(@PathVariable Long id) {
 		return ueberweisungRepo.findById(id).orElse(null);
 	}

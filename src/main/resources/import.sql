@@ -98,10 +98,6 @@ INSERT INTO role_privilege (roleid, privilegeid) VALUES
 	),
 		(
 		(SELECT r.id FROM role r WHERE r.name='SERVICE'),
-		(SELECT p.id FROM privilege p WHERE p.name='ROLE_UEBERWEISUNGEN_ANZEIGEN')
-	),
-		(
-		(SELECT r.id FROM role r WHERE r.name='SERVICE'),
 		(SELECT p.id FROM privilege p WHERE p.name='ROLE_UEBERWEISUNG_TAETIGEN')
 	)
 ;
