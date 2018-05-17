@@ -26,7 +26,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.session.SessionDestroyedEvent;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -34,7 +33,6 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import riskybank.services.AuthenticationService;
 import riskybank.services.IpBlockService;
 import riskybank.services.UserService;
 
@@ -62,9 +60,6 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private AuthenticationService authService;
 
 	@Autowired
 	private IpBlockService ipBlocker;
@@ -107,8 +102,7 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Autowired
 	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-		// auth.userDetailsService(userService);
-		auth.authenticationProvider(authService); // Custom-Authentifizierung
+		auth.userDetailsService(userService);
 	}
 
 	/**
