@@ -80,9 +80,8 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http // Hier ist die Reihenfolge wichtig!
-				// .csrf().disable() // CSRF-Schutz deaktivieren
-				.csrf().ignoringAntMatchers("/h2_console/**") //
-				.and().anonymous().disable() //
+				.csrf().disable() // CSRF-Schutz deaktivieren
+				.anonymous().disable() //
 				.formLogin() // Login-Formular. Customizable mittels .loginPage(loginPage)
 				.and().logout() // Logout. Customizable durch .logoutUrl(logoutUrl)
 				.and().headers().frameOptions().sameOrigin() // Frames für H2 Console erlauben
