@@ -26,6 +26,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -66,6 +68,9 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private IpBlockService ipBlocker;
 
+	@Autowired(required = false)
+	private SessionRegistry sessionRegistry;
+
 	@Bean
 	public WebMvcConfigurer webMvcKonfigurieren() {
 		return new WebMvcConfigurer() {
@@ -79,18 +84,16 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http // Hier ist die Reihenfolge wichtig!
-				.csrf().disable() // CSRF-Schutz deaktivieren
-				// .csrf().ignoringAntMatchers("/h2_console/**")
-				// .authorizeRequests().antMatchers("/**").hasAnyAuthority("KUNDE", "SERVICE",
-				// "ADMIN").and() //
-				.anonymous().disable() //
+				// .csrf().disable() // CSRF-Schutz deaktivieren
+				.csrf().ignoringAntMatchers("/h2_console/**") //
+				.and().anonymous().disable() //
 				.formLogin() // Login-Formular. Customizable mittels .loginPage(loginPage)
 				.and().logout() // Logout. Customizable durch .logoutUrl(logoutUrl)
 				.and().headers().frameOptions().sameOrigin() // Frames für H2 Console erlauben
 		;
 		http //
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) //
-				.and().sessionManagement().maximumSessions(1) //
+				.and().sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry) //
 				.and().sessionFixation().migrateSession() //
 		;
 	}
@@ -136,7 +139,7 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public ApplicationListener<AuthenticationSuccessEvent> successListener() {
 		return (AuthenticationSuccessEvent event) -> {
-			String details = readDetails(event);
+			String details = readRemoteAddressFromEvent(event);
 			LOG.debug("Login erfolgreich von " + details);
 			ipBlocker.loginErfolgreich(details);
 		};
@@ -148,10 +151,15 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public ApplicationListener<AuthenticationFailureBadCredentialsEvent> failureListener() {
 		return (AuthenticationFailureBadCredentialsEvent event) -> {
-			String details = readDetails(event);
+			String details = readRemoteAddressFromEvent(event);
 			LOG.debug("Login fehlgeschlagen von " + details);
 			ipBlocker.loginNichtErfolgreich(details);
 		};
+	}
+
+	@Bean
+	public SessionRegistry sessionRegistry() {
+		return new SessionRegistryImpl();
 	}
 
 	/**
@@ -160,7 +168,7 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 	 * @param event
 	 * @return
 	 */
-	private static String readDetails(AbstractAuthenticationEvent event) {
+	private static String readRemoteAddressFromEvent(AbstractAuthenticationEvent event) {
 		return Optional.ofNullable(event) //
 				.map(AbstractAuthenticationEvent::getAuthentication) //
 				.map(Authentication::getDetails) //
@@ -168,6 +176,20 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 						? ((WebAuthenticationDetails) d).getRemoteAddress()
 						: d.toString())
 				.orElse("");
+	}
+
+	/**
+	 * liest Details aus einem AbstractAuthenticationEvent, hoffentlich den
+	 * Principal
+	 * 
+	 * @param event
+	 * @return
+	 */
+	private static Object readPrincipalFromEvent(AbstractAuthenticationEvent event) {
+		return Optional.ofNullable(event) //
+				.map(AbstractAuthenticationEvent::getAuthentication) //
+				.map(Authentication::getPrincipal) //
+				.orElse(null);
 	}
 
 }

@@ -11,7 +11,7 @@ CREATE TABLE user (
 	vorname VARCHAR(255) NOT NULL,
 	nachname VARCHAR(255) NOT NULL,
 	username VARCHAR(255) UNIQUE NOT NULL,
-	password VARCHAR(60) NOT NULL,
+	password VARCHAR(200) NOT NULL,
 	treuepunkte BIGINT NOT NULL DEFAULT 0,
 	telefonnummer VARCHAR(20),
 	aktiv BOOLEAN NOT NULL DEFAULT TRUE,
@@ -97,7 +97,7 @@ INSERT INTO role_privilege (roleid, privilegeid) VALUES
 		(SELECT p.id FROM privilege p WHERE p.name='ROLE_UEBERWEISUNG_TAETIGEN')
 	),
 		(
-		(SELECT r.id FROM role r WHERE r.name='KUNDE'),
+		(SELECT r.id FROM role r WHERE r.name='SERVICE'),
 		(SELECT p.id FROM privilege p WHERE p.name='ROLE_UEBERWEISUNGEN_ANZEIGEN')
 	),
 		(

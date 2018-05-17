@@ -43,9 +43,10 @@ public class AuthenticationService implements AuthenticationProvider {
 
 	private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-	public static final Set<Class<?>> SUPPORTED_AUTHENTICATION_TYPES = Collections.unmodifiableSet(Stream.of( //
-			UsernamePasswordAuthenticationToken.class //
-	).collect(Collectors.toSet()));
+	@Override
+	public boolean supports(Class<?> authentication) {
+		return SUPPORTED_AUTHENTICATION_TYPES.contains(authentication);
+	}
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -68,6 +69,11 @@ public class AuthenticationService implements AuthenticationProvider {
 				throw new InsufficientAuthenticationException("Host nicht erlaubt");
 			}
 		}
+		if (user.getPassword().startsWith("{noop}")) {
+			String passwordWithoutPrefix = user.getPassword().replace("{noop}", "");
+			user.setPassword(passwordEncoder.encode(passwordWithoutPrefix));
+			userRepository.save(user);
+		}
 		return new UsernamePasswordAuthenticationToken( //
 				user.getUsername(), //
 				user.getPassword(), //
@@ -75,10 +81,9 @@ public class AuthenticationService implements AuthenticationProvider {
 		);
 	}
 
-	@Override
-	public boolean supports(Class<?> authentication) {
-		return SUPPORTED_AUTHENTICATION_TYPES.contains(authentication);
-	}
+	public static final Set<Class<?>> SUPPORTED_AUTHENTICATION_TYPES = Collections.unmodifiableSet(Stream.of( //
+			UsernamePasswordAuthenticationToken.class //
+	).collect(Collectors.toSet()));
 
 	private String clientIpErmitteln() {
 		return Optional.ofNullable(request.getHeader("X-Forwarded-For")) // wenn der Client Proxies benutzt ...

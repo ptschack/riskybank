@@ -18,7 +18,7 @@ import riskybank.persistence.repositories.UeberweisungRepository;
 @RequestMapping("/api/ueberweisung")
 public class RestUeberweisungController {
 
-	private static final String UEBERWEISUNG_FILTERN_NACH_AUFTRAGGEBER = "filterObject.quellkonto.owner.username eq authentication.name";
+	private static final String UEBERWEISUNG_FILTERN_NACH_AUFTRAGGEBER = "filterObject.quellkonto.owner.username eq authentication.name OR hasRole('ROLE_UEBERWEISUNGEN_ANZEIGEN')";
 
 	@Autowired
 	private UeberweisungRepository ueberweisungRepo;
