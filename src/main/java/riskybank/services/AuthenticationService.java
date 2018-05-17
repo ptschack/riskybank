@@ -29,7 +29,6 @@ import riskybank.persistence.entities.User;
 import riskybank.persistence.repositories.UserRepository;
 
 @Service("riskybank.services.authenticationService")
-@Transactional
 public class AuthenticationService implements AuthenticationProvider {
 
 	@SuppressWarnings("unused")
@@ -68,11 +67,6 @@ public class AuthenticationService implements AuthenticationProvider {
 			if (!erlaubt) {
 				throw new InsufficientAuthenticationException("Host nicht erlaubt");
 			}
-		}
-		if (user.getPassword().startsWith("{noop}")) {
-			String passwordWithoutPrefix = user.getPassword().replace("{noop}", "");
-			user.setPassword(passwordEncoder.encode(passwordWithoutPrefix));
-			userRepository.save(user);
 		}
 		return new UsernamePasswordAuthenticationToken( //
 				user.getUsername(), //
