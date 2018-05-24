@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-<title>Auftragsbest&auml;tigung</title>
-</head>
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="fragments/head :: head"></head>
+
 <body>
-	<h1>Auftragsbest&auml;tigung</h1>
-	<p th:text="'Hiermit best&auml;tigen wir Ihnen folgende &Uuml;berweisung'" />
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+	<h2>Auftragsbest&auml;tigung</h2>
+	<p th:text="'Hiermit bestätigen wir Ihnen folgende Überweisung'" />
 	<p th:text="'Quellkonto: ' + ${ueberweisung.quellkonto.name}" />
 	<p th:text="'Ziel-IBAN: ' + ${ueberweisung.zielIban}" />
 	<p th:text="'Betrag : ' + ${ueberweisung.betrag}" />
 	<p th:text="'Datum : ' + ${ueberweisung.datum}" />
 	<p th:text="'Text : ' + ${ueberweisung.text}" />
 	<br />
-	<a href="/">Zur&uuml;ck zur &Uuml;bersicht</a>
+
+<div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>

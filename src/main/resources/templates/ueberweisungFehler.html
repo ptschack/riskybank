@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-<title>Fehler bei &Uuml;berweisung</title>
-</head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="fragments/head :: head"></head>
 <body>
-	<h1>Das tut uns leid :(</h1>
-	<p th:text="'Es gab einen Fehler bei Ihrer &Uuml;berweisung:'" />
-	<p th:text="${error}" />
-	<br />
-	<a href="/ueberweisung">Nochmal versuchen</a>
-	<br />
-	<a href="/welcome">Zur&uuml;ck zur &Uuml;bersicht</a>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+	<div class="alert alert-danger">
+		<h1>Das tut uns leid :(</h1>
+		<span class="text">Es gab einen Fehler bei Ihrer Überweisung:</span>
+		<pre>
+			<code>
+				<span th:text="${error}"></span>
+			</code>
+		</pre>
+		<a href="/ueberweisung"><i class="fa fa-repeat fa-fw"></i>Nochmal versuchen</a>
+	</div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>
