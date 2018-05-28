@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="fragments/head :: head"></head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="login-container">
+        <div class="alert alert-danger" th:if="${loginError}">Benutzername und/oder Passwort falsch.</div>
+        <form th:action="@{/login}" th:method="post">
+            <div class="form-group row">
+                <label for="tx-username" class="col-sm-2 col-form-label">Benutzername</label>
+                <input id="tx-username" name="username" type="text" required class="form-control col-sm-10" autofocus />
+            </div>
+            <div class="form-group row">
+                <label for="tx-username" class="col-sm-2 col-form-label">Passwort</label>
+                <input id="tx-password" name="password" type="password" required class="form-control col-sm-10" />
+            </div>
+            <button type="submit" class="btn"><i class="fa fa-sign-in fa-fw"></i>Login</button>
+        </form>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
