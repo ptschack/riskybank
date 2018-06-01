@@ -1,25 +1,34 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-<title>RiskyBank Startseite</title>
-</head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+
 <body>
-	<h1>Willkommen bei RiskyBank!</h1>
-	<p th:text="'Angemeldet als Kunde ' + ${name}" />
-	<a href="/ueberweisung">&Uuml;berweisung aufgeben</a>
-	<br />
-	<a href="/ueberweisungenAnzeigen">&Uuml;berweisungen anzeigen</a>
-	<br />
-	<a href="/historie">Aktionshistorie</a>
-	<br />
-	<h2>Ihre Konten</h2>
-	<th:block th:each="konto : ${konten}">
-		<p th:text="${konto.name}"></p>
-		<p th:text="${konto.saldo}"></p>
-	</th:block>
-	<a href="/login?logout">Logout</a>
-	<br />
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4"><i class="fa fa-bank fa-fw"></i>Risky Bank - Kunden-Portal</h1>
+        <p class="lead">Willkommen im <b>Kunden-Portal</b> der Risky Bank!</p>
+    </div>
+
+    <h3>Übersicht Ihrer Konten</h3>
+    <table class="table">
+        <thead>
+            <th>Konto</th>
+            <th>Saldo</th>
+        </thead>
+        <tbody>
+            <tr th:each="konto : ${konten}">
+                <td th:text="${konto.name}"></td>
+                <td th:text="${konto.saldo}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>

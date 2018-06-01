@@ -1,20 +1,36 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-<title>Ums&auml;tze</title>
-</head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
 <body>
-	<h1>Ums&auml;tze</h1>
-	<th:block th:each="ueberweisung : ${ueberweisungen}">
-		<p th:text="'Quellkonto: '+${ueberweisung.quellkonto.name}"></p>
-		<p th:text="'Datum: '+${ueberweisung.formatiertesDatum}"></p>
-		<p th:text="'ZielIban: '+${ueberweisung.zielIban}"></p>
-		<p th:text="'Betrag: '+${ueberweisung.betrag}"></p>
-		<p th:text="'Text: '+${ueberweisung.text}"></p>
-	</th:block>
-	<a href="/">Startseite</a><br />
-	<a href="/login?logout">Logout</a><br />
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+    <h3>Ums&auml;tze</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Quellkonto</th>
+            <th>Datum</th>
+            <th>Ziel-IBAN</th>
+            <th>Betrag</th>
+            <th>Text</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ueberweisung : ${ueberweisungen}">
+            <td th:text="${ueberweisung.quellkonto.name}"></td>
+            <td th:text="${ueberweisung.formatiertesDatum}"></td>
+            <td th:text="${ueberweisung.zielIban}"></td>
+            <td th:text="${ueberweisung.betrag}"></td>
+            <td th:text="${ueberweisung.text}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>

@@ -1,14 +1,5 @@
 package riskybank;
 
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.servlet.ServletContext;
-import javax.servlet.SessionTrackingMode;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +23,16 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import riskybank.services.IpBlockService;
 import riskybank.services.UserService;
+
+import javax.servlet.ServletContext;
+import javax.servlet.SessionTrackingMode;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Konfigurationsklasse für RiskyBank-Anwendung
@@ -83,7 +81,10 @@ public class RiskyBankConfig extends WebSecurityConfigurerAdapter {
 				.csrf().disable() // CSRF-Schutz deaktivieren
 				.anonymous().disable() //
 				.formLogin() // Login-Formular. Customizable mittels .loginPage(loginPage)
-				.and().logout() // Logout. Customizable durch .logoutUrl(logoutUrl)
+
+                .loginPage("/login").failureUrl("/login/error")
+
+				.and().logout()
 				.and().headers().frameOptions().sameOrigin() // Frames für H2 Console erlauben
 		;
 		http //
